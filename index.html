@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web & Poster Design Studio</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#070709',
+                            900: '#0a0a0d',
+                            800: '#121217',
+                            700: '#1a1a22',
+                            600: '#262633'
+                        },
+                        neon: {
+                            cyan: '#00f3ff',
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                            blue: '#3b82f6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #070709;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .tight-heading {
+            letter-spacing: -0.03em !important;
+            word-spacing: normal;
+        }
+
+        .neon-text-cyan {
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.3);
+        }
+        .neon-text-purple {
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.6), 0 0 30px rgba(168, 85, 247, 0.3);
+        }
+        .neon-border-glow {
+            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.3);
+        }
+        .neon-border-glow:hover {
+            box-shadow: 0 0 35px 0px rgba(0, 243, 255, 0.4);
+        }
+
+        .glass-panel {
+            background: rgba(18, 18, 23, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070709;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a1a22;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #262633;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-neon-cyan selection:text-black">
+
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Floating WhatsApp Action Button -->
+    <a id="floating-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-2xl shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all duration-300 group">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="absolute right-16 bg-dark-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-700 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+            Chat on WhatsApp
+        </span>
+    </a>
+
+    <nav class="fixed top-0 left-0 right-0 z-40 glass-panel border-b border-gray-800/60 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <a href="#" class="flex items-center gap-3 group">
+                <div id="nav-logo-container" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/20 group-hover:scale-105 transition-transform overflow-hidden">
+                    <span id="nav-logo-text" class="font-heading text-lg font-extrabold">W</span>
+                    <img id="nav-logo-img" src="" alt="Logo" class="hidden w-full h-full object-cover">
+                </div>
+                <span id="site-brand-title" class="font-heading font-extrabold text-xl tracking-tight text-white">
+                    Web & Poster Studio
+                </span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-300">
+                <a href="#about" class="hover:text-neon-cyan transition-colors">About</a>
+                <a href="#services" class="hover:text-neon-cyan transition-colors">Services</a>
+                <a href="#portfolio" class="hover:text-neon-cyan transition-colors">Portfolio</a>
+                <a href="#contact" class="hover:text-neon-cyan transition-colors">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div id="header-social-links" class="hidden lg:flex items-center gap-3 border-r border-gray-800 pr-4"></div>
+                <button onclick="triggerQuickOrder('General Inquiry')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-black font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all hover:scale-105 flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Quick Order</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="public-main-content" class="pt-24">
+        
+        <section id="about" class="relative py-20 md:py-32 overflow-hidden border-b border-gray-800/40">
+            <div class="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="max-w-4xl">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-neon-cyan text-xs font-bold uppercase tracking-wider mb-6">
+                        <span class="w-2 h-2 rounded-full bg-neon-cyan animate-ping"></span>
+                        Specialized Web UI & Poster Studio
+                    </div>
+                    
+                    <h1 class="tight-heading font-heading text-4xl sm:text-6xl md:text-7xl font-extrabold text-white leading-[1.08] mb-8">
+                        Crafting High-Impact <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-indigo-300 to-purple-400 neon-text-cyan">Websites</span> & Modern <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-neon-pink neon-text-purple">Posters</span>.
+                    </h1>
+
+                    <p class="text-gray-300 text-lg md:text-xl font-normal leading-relaxed mb-10 max-w-2xl">
+                        Dedicated exclusively to modern web interfaces and stunning digital/print poster designs. Engineered to capture attention and convert visitors into buyers.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <button onclick="triggerQuickOrder('Web & Poster Design Consultation')" class="px-8 py-4 rounded-xl bg-neon-cyan hover:bg-cyan-300 text-black font-extrabold transition-all shadow-xl shadow-cyan-500/20 hover:scale-105 flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            Order via WhatsApp
+                        </button>
+                        <a href="#portfolio" class="px-8 py-4 rounded-xl glass-panel font-semibold hover:bg-dark-800 text-gray-200 transition-all border border-gray-700">
+                            Explore Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-24 bg-dark-900/60 relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+                    <div>
+                        <span class="text-neon-cyan font-semibold text-xs uppercase tracking-widest">Our Expertise</span>
+                        <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-white mt-2">Tailored Offerings</h2>
+                    </div>
+                    <p class="text-gray-400 max-w-md text-sm">Every package includes direct WhatsApp support and custom revisions.</p>
+                </div>
+
+                <div id="services-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="py-24">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-neon-purple font-semibold text-xs uppercase tracking-widest">Featured Works</span>
+                    <h2 class="font-heading text-3xl md:text-5xl font-extrabold text-white mt-2 mb-4">Design Portfolio</h2>
+                    <p class="text-gray-400 text-sm">Explore recent web design concepts and promo posters.</p>
+                </div>
+
+                <div class="flex justify-center gap-2 mb-12">
+                    <button onclick="filterPortfolio('all')" class="portfolio-filter-btn px-6 py-2.5 rounded-full bg-cyan-500 text-black font-bold text-xs uppercase tracking-wider transition-all" data-filter="all">All Works</button>
+                    <button onclick="filterPortfolio('web')" class="portfolio-filter-btn px-6 py-2.5 rounded-full bg-dark-800 text-gray-300 hover:bg-dark-700 font-bold text-xs uppercase tracking-wider transition-all" data-filter="web">Websites</button>
+                    <button onclick="filterPortfolio('poster')" class="portfolio-filter-btn px-6 py-2.5 rounded-full bg-dark-800 text-gray-300 hover:bg-dark-700 font-bold text-xs uppercase tracking-wider transition-all" data-filter="poster">Posters</button>
+                </div>
+
+                <div id="portfolio-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-24 bg-dark-900/80 border-t border-gray-800/60">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="glass-panel rounded-3xl p-8 md:p-12 neon-border-glow">
+                    <div class="text-center mb-10">
+                        <span class="text-neon-cyan text-xs font-bold uppercase tracking-widest">Get In Touch</span>
+                        <h2 class="font-heading text-3xl md:text-4xl font-extrabold text-white mt-1">Start Your Project</h2>
+                        <p class="text-gray-400 text-sm mt-2">Fill out the brief below to launch a chat directly with us on WhatsApp.</p>
+                    </div>
+
+                    <form onsubmit="handleDirectContactForm(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Your Name</label>
+                                <input id="contact-name" type="text" required placeholder="John Doe" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Project Category</label>
+                                <select id="contact-category" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                                    <option value="Custom Web Design">Custom Web Design</option>
+                                    <option value="Event/Business Poster">Event or Business Poster</option>
+                                    <option value="Web + Poster Bundle">Web + Poster Bundle</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Project Details & Requirements</label>
+                            <textarea id="contact-details" rows="4" required placeholder="Describe your website goals or poster concept..." class="w-full bg-dark-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-neon-cyan via-indigo-500 to-purple-600 hover:opacity-95 text-black font-extrabold text-base shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            Send Project Brief via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-12 border-t border-gray-800/80 text-center text-gray-500 text-sm">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <p>© <span id="footer-year"></span> <span id="site-brand-footer">Web & Poster Studio</span>. All rights reserved.</p>
+                </div>
+                
+                <div id="footer-social-links" class="flex items-center gap-4"></div>
+            </div>
+        </footer>
+    </main>
+
+    <div id="admin-modal-overlay" class="hidden fixed inset-0 z-50 bg-dark-950/95 backdrop-blur-2xl overflow-y-auto min-h-screen p-4 md:p-8">
+        <div class="max-w-5xl mx-auto">
+            
+            <div id="admin-login-box" class="max-w-md mx-auto my-16 glass-panel rounded-3xl p-8 border border-purple-500/30 shadow-2xl">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-purple-500/10 text-neon-purple border border-purple-500/30 flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h2 class="font-heading text-2xl font-bold text-white">Secret Admin Console</h2>
+                    <p class="text-xs text-gray-400 mt-1">Enter your secret password to unlock site controls</p>
+                </div>
+
+                <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Admin Password</label>
+                        <input id="admin-pass-input" type="password" required placeholder="Enter Secret Password" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan">
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-neon-cyan hover:bg-cyan-300 text-black font-extrabold transition-colors">
+                        Unlock Admin Controls
+                    </button>
+                    <button type="button" onclick="exitAdminView()" class="w-full py-2.5 rounded-xl border border-gray-800 text-gray-400 text-xs hover:bg-dark-800 transition-colors">
+                        Return to Public Site
+                    </button>
+                </form>
+            </div>
+
+            <div id="admin-main-panel" class="hidden space-y-8">
+                
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-800">
+                    <div>
+                        <div class="flex items-center gap-2 text-neon-cyan text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-circle-check"></i> Authenticated Admin Session
+                        </div>
+                        <h1 class="font-heading text-3xl font-extrabold text-white mt-1">Website Control Center</h1>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="exitAdminView()" class="px-4 py-2.5 rounded-xl bg-dark-800 hover:bg-dark-700 text-gray-200 text-xs font-bold border border-gray-700 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-eye"></i> View Live Site
+                        </button>
+                        <button onclick="logoutAdmin()" class="px-4 py-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 border border-rose-500/30 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-lock"></i> Lock Admin
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <div class="space-y-6">
+                        
+                        <!-- 1. BRANDING & DIRECT IMAGE UPLOAD LOGO CONTROL -->
+                        <div class="glass-panel rounded-2xl p-6 border border-gray-800">
+                            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-paint-roller text-neon-cyan"></i> Branding & Logo
+                            </h3>
+                            <form onsubmit="saveBrandingSettings(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-400 mb-1">Site Brand Name</label>
+                                    <input id="admin-brand-name" type="text" required class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                                </div>
+                                
+                                <!-- Direct File Upload Option -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-400 mb-1">Upload Logo Image (Direct File)</label>
+                                    <input id="admin-logo-file" type="file" accept="image/*" onchange="handleLogoFileUpload(event)" class="w-full text-xs text-gray-400 bg-dark-800 border border-gray-700 rounded-xl px-2 py-2 focus:outline-none cursor-pointer file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-neon-cyan file:text-black hover:file:bg-cyan-300">
+                                </div>
+
+                                <div class="text-center text-xs text-gray-500 font-bold uppercase tracking-widest my-1">- OR -</div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-400 mb-1">Logo Image URL</label>
+                                    <input id="admin-logo-url" type="url" placeholder="https://example.com/logo.png" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                                </div>
+
+                                <div id="logo-preview-box" class="hidden flex items-center gap-3 p-2 bg-dark-900 border border-gray-700 rounded-xl">
+                                    <img id="logo-preview-img" src="" class="w-8 h-8 rounded-lg object-cover">
+                                    <span class="text-xs text-emerald-400 font-semibold">Current Logo Active</span>
+                                    <button type="button" onclick="clearLogoImage()" class="ml-auto text-xs text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+
+                                <button type="submit" class="w-full py-2.5 rounded-xl bg-neon-cyan text-black font-bold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-colors">
+                                    Save Branding
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- 2. WHATSAPP NUMBER SETTINGS -->
+                        <div class="glass-panel rounded-2xl p-6 border border-gray-800">
+                            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-emerald-400"></i> WhatsApp Order Number
+                            </h3>
+                            <form onsubmit="saveWhatsAppNumber(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-400 mb-1">WhatsApp Phone Number</label>
+                                    <input id="admin-whatsapp-num" type="text" required placeholder="e.g. 94771234567" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-400">
+                                </div>
+                                <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider hover:bg-emerald-400 transition-colors">
+                                    Update WhatsApp Links
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- 3. SECURITY & PASSWORD CHANGE -->
+                        <div class="glass-panel rounded-2xl p-6 border border-gray-800">
+                            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-key text-neon-purple"></i> Secret Password
+                            </h3>
+                            <form onsubmit="saveNewPassword(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-400 mb-1">New Admin Password</label>
+                                    <input id="admin-new-pass" type="password" required class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-purple">
+                                </div>
+                                <button type="submit" class="w-full py-2.5 rounded-xl bg-purple-600 text-white font-bold text-xs uppercase tracking-wider hover:bg-purple-500 transition-colors">
+                                    Change Password
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <div class="glass-panel rounded-2xl p-6 border border-gray-800">
+                            <h3 class="text-base font-bold text-white mb-4 flex items-center justify-between">
+                                <span><i class="fa-solid fa-share-nodes text-neon-cyan"></i> Social Media Links & Visibility</span>
+                            </h3>
+
+                            <div id="admin-social-grid" class="space-y-3 max-h-[280px] overflow-y-auto pr-2"></div>
+                        </div>
+
+                        <div class="glass-panel rounded-2xl p-6 border border-gray-800">
+                            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-plus-circle text-neon-cyan"></i> Add New Service
+                            </h3>
+                            <form onsubmit="saveNewService(event)" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="md:col-span-2">
+                                        <label class="block text-xs font-semibold text-gray-400 mb-1">Service Title</label>
+                                        <input id="service-new-title" type="text" required placeholder="e.g. Premium Poster Art" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-400 mb-1">Tag / Category</label>
+                                        <input id="service-new-tag" type="text" required placeholder="e.g. Poster Design" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-400 mb-1">Icon Style</label>
+                                        <select id="service-new-icon" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                                            <option value="fa-laptop-code">Web - Coding Laptop</option>
+                                            <option value="fa-compass-drafting">Web - Architecture</option>
+                                            <option value="fa-image">Poster - Graphic Canvas</option>
+                                            <option value="fa-wand-magic-sparkles">Poster - Magic Artwork</option>
+                                            <option value="fa-mobile-screen-button">Web - Mobile Responsive</option>
+                                            <option value="fa-layer-group">Design - Components</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-400 mb-1">Service Description</label>
+                                        <input id="service-new-desc" type="text" required placeholder="Short description of service..." class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                                    </div>
+                                </div>
+                                <button type="submit" class="px-6 py-2.5 rounded-xl bg-neon-cyan text-black font-bold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-colors">
+                                    Create Service
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="glass-panel rounded-2xl p-6 border border-gray-800">
+                            <h3 class="text-base font-bold text-white mb-4 flex items-center justify-between">
+                                <span><i class="fa-solid fa-list-check text-neon-purple"></i> Active Services</span>
+                                <span id="admin-services-badge" class="text-xs px-2 py-1 bg-purple-500/20 text-neon-purple rounded-full">0 Active</span>
+                            </h3>
+
+                            <div id="admin-services-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-2"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const INITIAL_APP_STATE = {
+            brandName: "Web & Poster Studio",
+            logoUrl: "",
+            whatsappNumber: "94771234567",
+            adminPassword: "admin123",
+            socials: {
+                instagram: { enabled: true, url: "https://instagram.com", name: "Instagram", icon: "fa-instagram" },
+                facebook: { enabled: true, url: "https://facebook.com", name: "Facebook", icon: "fa-facebook" },
+                linkedin: { enabled: true, url: "https://linkedin.com", name: "LinkedIn", icon: "fa-linkedin" },
+                twitter: { enabled: false, url: "https://x.com", name: "X / Twitter", icon: "fa-x-twitter" },
+                behance: { enabled: true, url: "https://behance.net", name: "Behance", icon: "fa-behance" },
+                dribbble: { enabled: true, url: "https://dribbble.com", name: "Dribbble", icon: "fa-dribbble" },
+                github: { enabled: false, url: "https://github.com", name: "GitHub", icon: "fa-github" },
+                youtube: { enabled: false, url: "https://youtube.com", name: "YouTube", icon: "fa-youtube" },
+                tiktok: { enabled: false, url: "https://tiktok.com", name: "TikTok", icon: "fa-tiktok" }
+            },
+            services: [
+                {
+                    id: 1,
+                    title: "Modern Web UI/UX Design",
+                    tag: "Web Design",
+                    desc: "Custom landing pages, web interfaces, and responsive Framer-style web apps designed for max conversions.",
+                    icon: "fa-laptop-code"
+                },
+                {
+                    id: 2,
+                    title: "Event & Business Poster Artwork",
+                    tag: "Poster Art",
+                    desc: "High-impact digital & printable promo posters, festival artwork, and social media posters.",
+                    icon: "fa-image"
+                },
+                {
+                    id: 3,
+                    title: "Landing Page Architecture",
+                    tag: "Web Design",
+                    desc: "Fast-loading, high-converting single-page websites designed for product launches and portfolios.",
+                    icon: "fa-compass-drafting"
+                },
+                {
+                    id: 4,
+                    title: "Flyer & Banner Design",
+                    tag: "Poster Art",
+                    desc: "Creative billboards, digital ad banners, and promotional print flyer layouts.",
+                    icon: "fa-wand-magic-sparkles"
+                }
+            ],
+            portfolio: [
+                {
+                    title: "SaaS Digital Platform Interface",
+                    category: "web",
+                    type: "Web Design",
+                    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    title: "Cyberpunk Music Festival Poster",
+                    category: "poster",
+                    type: "Poster Art",
+                    image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    title: "Luxury E-Commerce Web Store",
+                    category: "web",
+                    type: "Web Design",
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    title: "Minimalist Architecture Exhibition Poster",
+                    category: "poster",
+                    type: "Poster Art",
+                    image: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    title: "Creative Agency Portfolio Layout",
+                    category: "web",
+                    type: "Web Design",
+                    image: "https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=800&q=80"
+                },
+                {
+                    title: "Retro Modern Typography Poster",
+                    category: "poster",
+                    type: "Poster Art",
+                    image: "https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&w=800&q=80"
+                }
+            ]
+        };
+
+        let store = loadStore();
+        let isAdminAuthenticated = false;
+
+        function loadStore() {
+            try {
+                const saved = localStorage.getItem('web_poster_agency_store');
+                return saved ? JSON.parse(saved) : INITIAL_APP_STATE;
+            } catch (e) {
+                return INITIAL_APP_STATE;
+            }
+        }
+
+        function saveStore() {
+            try {
+                localStorage.setItem('web_poster_agency_store', JSON.stringify(store));
+            } catch (e) {
+                console.error("Failed saving to LocalStorage", e);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+            renderApp();
+            checkUrlHashRoute();
+
+            window.addEventListener('hashchange', checkUrlHashRoute);
+        });
+
+        function renderApp() {
+            document.getElementById('site-brand-title').textContent = store.brandName;
+            document.getElementById('site-brand-footer').textContent = store.brandName;
+
+            const logoImg = document.getElementById('nav-logo-img');
+            const logoText = document.getElementById('nav-logo-text');
+            const previewBox = document.getElementById('logo-preview-box');
+            const previewImg = document.getElementById('logo-preview-img');
+
+            if (store.logoUrl && store.logoUrl.trim() !== '') {
+                logoImg.src = store.logoUrl;
+                logoImg.classList.remove('hidden');
+                logoText.classList.add('hidden');
+
+                if (previewBox && previewImg) {
+                    previewImg.src = store.logoUrl;
+                    previewBox.classList.remove('hidden');
+                }
+            } else {
+                logoImg.classList.add('hidden');
+                logoText.classList.remove('hidden');
+                logoText.textContent = store.brandName.charAt(0).toUpperCase();
+
+                if (previewBox) {
+                    previewBox.classList.add('hidden');
+                }
+            }
+
+            const quickMsg = encodeURIComponent("Hello! I am interested in placing an order for Web or Poster Design.");
+            document.getElementById('floating-whatsapp-btn').href = `https://wa.me/${store.whatsappNumber}?text=${quickMsg}`;
+
+            renderSocialMediaLinks();
+            renderServicesGrid();
+            renderPortfolioGrid('all');
+
+            document.getElementById('admin-brand-name').value = store.brandName;
+            document.getElementById('admin-logo-url').value = store.logoUrl || '';
+            document.getElementById('admin-whatsapp-num').value = store.whatsappNumber;
+            renderAdminSocialControls();
+            renderAdminServicesList();
+        }
+
+        // Direct File Upload Logic for Logo (Converts Image file to Base64 Data URL)
+        function handleLogoFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) { // 2MB limit for performance
+                showToast("Image size too large! Please choose an image under 2MB.", "error");
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                store.logoUrl = base64Data;
+                document.getElementById('admin-logo-url').value = '';
+                saveStore();
+                renderApp();
+                showToast("Logo image uploaded and updated successfully!", "success");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearLogoImage() {
+            store.logoUrl = "";
+            document.getElementById('admin-logo-url').value = "";
+            document.getElementById('admin-logo-file').value = "";
+            saveStore();
+            renderApp();
+            showToast("Logo removed. Reset to default text logo.", "info");
+        }
+
+        function renderSocialMediaLinks() {
+            const headerContainer = document.getElementById('header-social-links');
+            const footerContainer = document.getElementById('footer-social-links');
+
+            let html = '';
+            Object.keys(store.socials).forEach(key => {
+                const item = store.socials[key];
+                if (item.enabled && item.url) {
+                    html += `
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-neon-cyan transition-colors p-1 text-sm" title="${item.name}">
+                            <i class="fa-brands ${item.icon}"></i>
+                        </a>
+                    `;
+                }
+            });
+
+            headerContainer.innerHTML = html;
+            footerContainer.innerHTML = html;
+        }
+
+        function renderServicesGrid() {
+            const container = document.getElementById('services-grid-container');
+            container.innerHTML = store.services.map(s => {
+                const msg = encodeURIComponent(`Hello! I would like to order the service: "${s.title}" (${s.tag}).`);
+                const waUrl = `https://wa.me/${store.whatsappNumber}?text=${msg}`;
+
+                return `
+                    <div class="glass-panel rounded-2xl p-8 transition-all hover:-translate-y-1 relative group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-neon-cyan border border-cyan-500/30 flex items-center justify-center text-xl">
+                                    <i class="fa-solid ${s.icon}"></i>
+                                </div>
+                                <span class="text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-purple-500/20 text-neon-purple border border-purple-500/30">
+                                    ${escapeHtml(s.tag)}
+                                </span>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold text-white mb-3">${escapeHtml(s.title)}</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-8">${escapeHtml(s.desc)}</p>
+                        </div>
+
+                        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-dark-800 hover:bg-neon-cyan hover:text-black text-white font-bold text-xs uppercase tracking-wider border border-gray-700 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            Order via WhatsApp
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPortfolioGrid(filter) {
+            const container = document.getElementById('portfolio-grid-container');
+            const items = filter === 'all' 
+                ? store.portfolio 
+                : store.portfolio.filter(p => p.category === filter);
+
+            container.innerHTML = items.map(p => {
+                const msg = encodeURIComponent(`Hello! I like your portfolio item "${p.title}" and want a similar ${p.type}.`);
+                const waUrl = `https://wa.me/${store.whatsappNumber}?text=${msg}`;
+
+                return `
+                    <div class="group glass-panel rounded-2xl overflow-hidden border border-gray-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-64 overflow-hidden bg-dark-800">
+                                <img src="${p.image}" alt="${escapeHtml(p.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/0a0a0d/00f3ff?text=Design+Preview'">
+                                <div class="absolute top-4 left-4 bg-dark-950/80 backdrop-blur-md border border-gray-700/60 text-neon-cyan text-xs px-3 py-1 rounded-full font-bold">
+                                    ${p.type}
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-heading text-lg font-bold text-white group-hover:text-neon-cyan transition-colors">${escapeHtml(p.title)}</h3>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-gray-400 hover:text-neon-cyan flex items-center gap-2 transition-colors">
+                                <i class="fa-brands fa-whatsapp"></i> Order Similar Design →
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterPortfolio(cat) {
+            document.querySelectorAll('.portfolio-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === cat) {
+                    btn.className = "portfolio-filter-btn px-6 py-2.5 rounded-full bg-cyan-500 text-black font-bold text-xs uppercase tracking-wider transition-all";
+                } else {
+                    btn.className = "portfolio-filter-btn px-6 py-2.5 rounded-full bg-dark-800 text-gray-300 hover:bg-dark-700 font-bold text-xs uppercase tracking-wider transition-all";
+                }
+            });
+            renderPortfolioGrid(cat);
+        }
+
+        function triggerQuickOrder(topic) {
+            const msg = encodeURIComponent(`Hello! I would like to make an inquiry regarding: ${topic}`);
+            window.open(`https://wa.me/${store.whatsappNumber}?text=${msg}`, '_blank');
+        }
+
+        function handleDirectContactForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const category = document.getElementById('contact-category').value;
+            const details = document.getElementById('contact-details').value;
+
+            const msg = encodeURIComponent(`New Project Inquiry:\n\n• Name: ${name}\n• Category: ${category}\n• Details: ${details}`);
+            window.open(`https://wa.me/${store.whatsappNumber}?text=${msg}`, '_blank');
+            e.target.reset();
+            showToast("Opening WhatsApp with your project brief!", "success");
+        }
+
+        function checkUrlHashRoute() {
+            const hash = window.location.hash.toLowerCase();
+            if (hash === '#admin' || hash === '#/admin') {
+                showAdminModal();
+            }
+        }
+
+        function showAdminModal() {
+            const overlay = document.getElementById('admin-modal-overlay');
+            overlay.classList.remove('hidden');
+
+            if (isAdminAuthenticated) {
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-main-panel').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-login-box').classList.remove('hidden');
+                document.getElementById('admin-main-panel').classList.add('hidden');
+            }
+        }
+
+        function exitAdminView() {
+            document.getElementById('admin-modal-overlay').classList.add('hidden');
+            if (window.location.hash === '#admin' || window.location.hash === '#/admin') {
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-pass-input').value;
+            if (pass === store.adminPassword) {
+                isAdminAuthenticated = true;
+                document.getElementById('admin-pass-input').value = '';
+                showToast("Admin session unlocked!", "success");
+                showAdminModal();
+            } else {
+                showToast("Invalid password!", "error");
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminAuthenticated = false;
+            showToast("Admin dashboard locked", "info");
+            showAdminModal();
+        }
+
+        function saveBrandingSettings(e) {
+            e.preventDefault();
+            store.brandName = document.getElementById('admin-brand-name').value.trim();
+            const urlInput = document.getElementById('admin-logo-url').value.trim();
+            if (urlInput) {
+                store.logoUrl = urlInput;
+            }
+            saveStore();
+            renderApp();
+            showToast("Branding settings updated!", "success");
+        }
+
+        function saveWhatsAppNumber(e) {
+            e.preventDefault();
+            const num = document.getElementById('admin-whatsapp-num').value.replace(/[^0-9]/g, '');
+            if (!num) return showToast("Enter a valid number", "error");
+
+            store.whatsappNumber = num;
+            saveStore();
+            renderApp();
+            showToast("WhatsApp phone number updated site-wide!", "success");
+        }
+
+        function saveNewPassword(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('admin-new-pass').value;
+            if (newPass.length < 4) return showToast("Password too short", "error");
+
+            store.adminPassword = newPass;
+            saveStore();
+            document.getElementById('admin-new-pass').value = '';
+            showToast("Admin password changed successfully!", "success");
+        }
+
+        function renderAdminSocialControls() {
+            const container = document.getElementById('admin-social-grid');
+            container.innerHTML = Object.keys(store.socials).map(key => {
+                const soc = store.socials[key];
+                return `
+                    <div class="flex items-center justify-between p-3 bg-dark-800 border border-gray-700/60 rounded-xl gap-3">
+                        <div class="flex items-center gap-3 flex-1">
+                            <i class="fa-brands ${soc.icon} text-lg text-neon-cyan w-5 text-center"></i>
+                            <input type="url" value="${soc.url}" onchange="updateSocialUrl('${key}', this.value)" placeholder="Profile URL" class="w-full bg-dark-900 border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-neon-cyan">
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" ${soc.enabled ? 'checked' : ''} onchange="toggleSocialVisibility('${key}', this.checked)" class="sr-only peer">
+                            <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-neon-cyan"></div>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateSocialUrl(key, val) {
+            store.socials[key].url = val.trim();
+            saveStore();
+            renderSocialMediaLinks();
+        }
+
+        function toggleSocialVisibility(key, isChecked) {
+            store.socials[key].enabled = isChecked;
+            saveStore();
+            renderSocialMediaLinks();
+            showToast(`${store.socials[key].name} ${isChecked ? 'Enabled' : 'Disabled'}`, "info");
+        }
+
+        function saveNewService(e) {
+            e.preventDefault();
+            const title = document.getElementById('service-new-title').value.trim();
+            const tag = document.getElementById('service-new-tag').value.trim();
+            const icon = document.getElementById('service-new-icon').value;
+            const desc = document.getElementById('service-new-desc').value.trim();
+
+            if (!title || !desc) return;
+
+            store.services.push({
+                id: Date.now(),
+                title,
+                tag,
+                icon,
+                desc
+            });
+
+            saveStore();
+            renderApp();
+
+            document.getElementById('service-new-title').value = '';
+            document.getElementById('service-new-tag').value = '';
+            document.getElementById('service-new-desc').value = '';
+            showToast("New service added!", "success");
+        }
+
+        function deleteService(id) {
+            store.services = store.services.filter(s => s.id !== id);
+            saveStore();
+            renderApp();
+            showToast("Service deleted", "info");
+        }
+
+        function renderAdminServicesList() {
+            const container = document.getElementById('admin-services-list');
+            const badge = document.getElementById('admin-services-badge');
+
+            badge.textContent = `${store.services.length} Active`;
+
+            if (store.services.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-500 py-3 text-center">No active services.</p>`;
+                return;
+            }
+
+            container.innerHTML = store.services.map(s => `
+                <div class="flex items-center justify-between p-3 bg-dark-800 border border-gray-700/60 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid ${s.icon} text-neon-cyan"></i>
+                        <div>
+                            <div class="text-xs font-bold text-white">${escapeHtml(s.title)} <span class="text-[10px] text-neon-purple font-normal">(${escapeHtml(s.tag)})</span></div>
+                            <div class="text-[11px] text-gray-400 line-clamp-1">${escapeHtml(s.desc)}</div>
+                        </div>
+                    </div>
+                    <button onclick="deleteService(${s.id})" class="text-rose-400 hover:text-rose-300 p-1.5 text-xs">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        function showToast(msg, type = "info") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgClass = type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-rose-600' : 'bg-cyan-600';
+            
+            toast.className = `${bgClass} text-black font-extrabold text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 pointer-events-auto transition-all transform translate-y-2 opacity-0 duration-300`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info'} text-sm"></i>
+                <span>${msg}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
